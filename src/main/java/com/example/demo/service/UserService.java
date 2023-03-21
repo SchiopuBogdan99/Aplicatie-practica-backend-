@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -60,5 +61,12 @@ public class UserService implements UserDetailsService {
         country.setUser(user);
         userRepository.save(user);
         countryRepository.save(country);
+    }
+
+    public List<Country> getUserCountries(String email) {
+        List<Country> countries = new ArrayList<>();
+        Optional<User> user = userRepository.findByEmail(email);
+        countries = user.get().getCountries();
+        return countries;
     }
 }

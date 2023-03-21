@@ -1,17 +1,17 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.AddImageDTO;
+import com.example.demo.dto.AddImageToCountryDTO;
 import com.example.demo.dto.CountryDTO;
 import com.example.demo.entity.Country;
 import com.example.demo.repository.CountryRepository;
 import org.springframework.stereotype.Service;
-
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CountryService {
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     public CountryService(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;
@@ -35,7 +35,7 @@ public class CountryService {
     public List<Country> findAll() {
         return (List<Country>) countryRepository.findAll();
     }
-    public String addPicture(AddImageDTO dto) {
+    public String addPicture(AddImageToCountryDTO dto) throws IOException {
         Country country = countryRepository.findById(dto.getCountryId()).orElse(null);
         if (country != null) {
             country.setImageId(dto.getImageId());

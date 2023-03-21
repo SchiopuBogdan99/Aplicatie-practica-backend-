@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(path="/api/v1/image")
+@CrossOrigin
 public class ImageDataController {
     private final ImageDataService imageDataService;
 
@@ -18,10 +20,9 @@ public class ImageDataController {
         this.imageDataService = imageDataService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file, @RequestParam("name") String name) throws IOException {
-        String uploadImage = imageDataService.uploadImage(file,name);
-        return ResponseEntity.ok(uploadImage);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Long> uploadImage(@RequestParam("image")MultipartFile file, @RequestParam("name") String name) throws IOException {
+        return ResponseEntity.ok(imageDataService.uploadImage(file,name));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> downloadImage(@PathVariable Long id) throws IOException {
@@ -30,5 +31,10 @@ public class ImageDataController {
                 .status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
+    }
+    @GetMapping()
+    public ResponseEntity<List<byte[]>> downloadAllImages() throws IOException {
+        return ResponseEntity .status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png")).body(imageDataService.downloadAllImages());
     }
 }

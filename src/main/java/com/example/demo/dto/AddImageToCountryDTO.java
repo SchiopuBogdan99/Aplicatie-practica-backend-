@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AddImageDTO {
+public class AddImageToCountryDTO {
     private Long countryId;
     private Long imageId;
 }

@@ -27,6 +27,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Country> countries;
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userType.name()));
